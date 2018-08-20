@@ -1,0 +1,10 @@
+
+.pillars .flex {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+.pillars .flex .v-card {
+  flex: 1 1 auto;
+}
+
