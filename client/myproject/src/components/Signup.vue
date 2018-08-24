@@ -59,6 +59,8 @@
 
 <script>
 import axios from 'axios'
+import { ifError } from 'assert';
+import { userInfo } from 'os';
 export default {
   name: 'Signup',
   data () {
@@ -80,6 +82,10 @@ export default {
         username : this.username,
         email: this.email,
         password: this.password
+      }
+
+      if(!newuser.username || !newuser.email || !newuser.password){
+        alert("Please try again")
       }
       axios.post('http://localhost:4200/users/signup', newuser).then( (value) =>{
       console.log("this is value", value);

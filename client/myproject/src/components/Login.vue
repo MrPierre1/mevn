@@ -61,18 +61,19 @@
         username : this.username,
         password: this.password
       }
+
+       if(!user.username || !user.password){
+        alert("Please try again")
+        return;
+      }
+
       axios.post('http://localhost:4200/users/login', user).then( (value) =>{
-      console.log("this is value of current user", value);
+      console.log("this is value of current user", value, value.data);
+      alert("this is value  "+ value.data)
         this.name = "value"
     })
 
-      console.log('Save', this.name, this.email)
-    },
-    prev() {
-      this.step--;
-    },
-    next() {
-      this.step++;
+      console.log('Save', this.username, this.password)
     },
     submit() {
       alert('Submit to blah and show blah and etc.');      
