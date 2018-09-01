@@ -30,13 +30,6 @@ export default {
       email: ''
     }
   },
-  created: function created() {
-    //do something after creating vue instance
-    axios.get('http://localhost:4200/users').then( (value) =>{
-      console.log("this is value", value);
-        this.name = value
-    })
-  },
   methods: {
     onSave: function () {
       console.log('Save', this.name, this.email)

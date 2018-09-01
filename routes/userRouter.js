@@ -2,14 +2,11 @@ var express = require("express");
 var app = express();
 var bcrypt = require("bcrypt");
 var jwt = require("jwt-simple");
-var payload = {
-  foo: "bar"
-};
 var secret = "xxx";
 
 var userRouter = express.Router();
 require("express-async-await")(app);
-// const saltRounds = 10;
+
 var salt = bcrypt.genSaltSync(10);
 
 // Require user model in our routes module
@@ -20,7 +17,6 @@ userRouter.route("/").get(async function(req, res) {
   var users = await user.find();
   res.json(users);
 });
-
 
 // Defined store route
 userRouter.route("/signup").post(async function(req, res, next) {
@@ -41,14 +37,14 @@ userRouter.route("/signup").post(async function(req, res, next) {
       username: username,
       email: email,
       password: hash,
-      image: image
+      image: image,
     });
 
     await newUser.save();
 
     await res.status(200).send(newUser);
     await console.log("logged the new user");
-   next()
+    next();
   });
 });
 
@@ -65,7 +61,7 @@ userRouter.route("/login").post(async function(req, res, next) {
 
   await user
     .findOne({
-      username: req.body.username
+      username: req.body.username,
     })
     .then(async function(user, err) {
       console.log(err, "user its just---", user);
@@ -73,74 +69,55 @@ userRouter.route("/login").post(async function(req, res, next) {
         res
           .status(400)
           .send("These credentials do not match anyone in our records");
-        // res.end();
         return next();
       }
-      // if (user) {
-        console.log(typeof user.password,typeof req.body.password);
-     await bcrypt
+      await bcrypt
         .compare(password, user.password)
         .then(function(result, err, val) {
-          console.log(
-            val, 
-            'errrs',
-            err,
-            "bcrypt errr",
-            result,
-            "creds",
-            user,
-            "name",
-            req.body.password
-          );
-          console.log(result, user, secret);
-          
           if (result) {
             var token = jwt.encode(user, secret);
-            // res.status(201).send(token)
-            // next()
             return res.json({
-              token
+              token,
             });
-            // next();
           } else {
             return res.status(400).send("bad password");
           }
         });
     });
-    next()
+  next();
 });
 
-userRouter.use(function(req, res, next) {
-  // check header or url parameters or post parameters for token
-  console.log("stuff", req.body, req.header, req.headers);
+// userRouter.use(function(req, res, next) {
+//   // check header or url parameters or post parameters for token
+//   console.log("stuff", req.body, req.header, req.headers);
 
-  var token =
-    req.body.token || req.query.token || req.headers["x-access-token"];
+//   var token =
+//     req.body.token || req.query.token || req.headers["x-access-token"];
 
-  // decode token
-  if (token) {
-    // verifies secret and checks exp
-    jwt.decode(token, secret, function(err, decoded) {
-      if (err) {
-        return res.json({
-          success: false,
-          message: "Failed to authenticate token."
-        });
-      } else {
-        // if everything is good, save to request for use in other routes
-        req.decoded = decoded;
-        next();
-      }
-    });
-  } else {
-    // if there is no token
-    // return an error
-    return res.status(403).send({
-      success: false,
-      message: "No token provided."
-    });
-  }
-});
+//   // decode token
+//   if (token) {
+//     // verifies secret and checks exp
+//     jwt.decode(token, secret, function(err, decoded) {
+//       if (err) {
+//         return res.json({
+//           success: false,
+//           message: "Failed to authenticate token."
+//         });
+//       } else {
+//         // if everything is good, save to request for use in other routes
+//         req.decoded = decoded;
+//         next();
+//       }
+//     });
+//   } else {
+//     // if there is no token
+//     // return an error
+//     return res.status(403).send({
+//       success: false,
+//       message: "No token provided."
+//     });
+//   }
+// });
 
 userRouter.route("/getuser/:username").get(async function(req, res) {
   console.log("stuff", req.body, req.header, req.headers);

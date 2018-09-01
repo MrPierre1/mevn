@@ -6,15 +6,14 @@ var bodyParser = require('body-parser');
 var port = 4200;
 var cors = require('cors');
 
-// app.use(serveStatic(__dirname + "/client"));
-// Mongoose connection with mongodb
 mongoose.Promise = require('bluebird');
 mongoose.connect('mongodb://localhost:27017/users', { useNewUrlParser: true })
 
-    .then(() => { // if all is ok we will be here
-      console.log('Start');
+    .then(() => { 
+      console.error('App started');
+      
     })
-    .catch(err => { // if error we will be here
+    .catch(err => { 
         console.error('App starting error:', err.stack);
         process.exit(1);
     });
@@ -33,13 +32,12 @@ app.use('/users', userRouter);
 
 app.get("/", function(req, res) {
   res.status(201).send({
-    key: 'It\'s a live',
-    val: "ROLE IS AWESOME"
+    key: 'It\'s a live'
   });
 });
 
 
 // Start the server
 app.listen(port, function(){
-  console.log('Server is running on Port: ',port);
+
 });

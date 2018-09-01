@@ -37,50 +37,49 @@
 </template>
 
  <script>
- import axios from 'axios'
-    export default {
-      name: 'Login',
+import axios from "axios";
+export default {
+  name: "Login",
 
-    data() {
+  data() {
     return {
-        username:null,
-        name:null,
-        email:null,
-        password:null,
-        street:null,
-        city:null,
-        state:null,
-        numtickets:0,
-        shirtsize:'XL'
-    }
+      username: null,
+      name: null,
+      email: null,
+      password: null,
+      street: null,
+      city: null,
+      state: null,
+      numtickets: 0,
+      shirtsize: "XL"
+    };
   },
-  methods:{
-       onSave: function () {
-      
-      var user =  {
-        username : this.username,
+  methods: {
+    onSave: function() {
+      var user = {
+        username: this.username,
         password: this.password
-      }
+      };
 
-       if(!user.username || !user.password){
-        alert("Please try again")
+      if (!user.username || !user.password) {
+        alert("Please try again");
         return;
       }
 
-      axios.post('http://localhost:4200/users/login', user).then( (value) =>{
-      console.log("this is value of current user", value, value.data);
-      alert("this is value  "+ value.data)
-        this.name = "value"
-    })
-
-      console.log('Save', this.username, this.password)
-    },
-    submit() {
-      alert('Submit to blah and show blah and etc.');      
+      axios
+        .post("http://localhost:4200/users/login", user)
+        .then(value => {
+          console.log("this is value of current user", value, value.data);
+          localStorage.setItem("token", JSON.stringify(value.data));
+          this.$router.push("/Home");
+        })
+        .catch(err => {
+          console.log("Its errors: ", err);
+        });
     }
   }
-      }
-  </script>
+};
+</script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1,
@@ -113,7 +112,7 @@ a {
   right: 15px;
 }
 
-.form2{
+.form2 {
   width: 640px;
   margin: 0 20px;
 }
