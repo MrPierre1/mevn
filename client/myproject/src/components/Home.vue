@@ -34,7 +34,40 @@ export default {
         .catch(err => {
           console.log("Its errors: ", err);
         });
-    }
+   var token = localStorage.getItem('token')
+   console.log("contne", token.token);
+   var newToken = JSON.parse(token)
+   console.log(newToken.token, "new toke1");
+
+      axios({
+        method: 'get',
+        url: 'http://localhost:4200/users/getuser/green',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Headers': 'x-access-token',
+          'x-access-token': newToken.token
+        }
+      })
+        .then(response => {
+          // if (response.data.status == 200) {
+            console.log('success', response);
+            // context.commit('setpermission', { 'permission': response.data.permission })
+            // resolve(true);
+          // }
+        })
+        .catch(e => {
+          console.log('errors', e)
+        })
+
+
+      //  axios
+      //  .get('http://localhost:4200/users/getuser/green', { 'headers': { 'Authorization': `Bearer ${newToken.token}`} })
+      //  .then(user1 => {
+      //       console.log("user1", user1);
+      //     }).catch(err => {
+      //     console.log("Its errors: ", err);
+      //   })
+ }
   },
 
   beforeRouteEnter(to, from, next) {

@@ -2,7 +2,7 @@ var express = require("express");
 var app = express();
 var bcrypt = require("bcrypt");
 var jwt = require("jwt-simple");
-var secret = "xxx";
+var secret = "xxxJORE";
 
 var userRouter = express.Router();
 require("express-async-await")(app);
@@ -87,50 +87,56 @@ userRouter.route("/login").post(async function(req, res, next) {
   next();
 });
 
-// userRouter.use(function(req, res, next) {
-//   // check header or url parameters or post parameters for token
-//   console.log("stuff", req.body, req.header, req.headers);
+userRouter.use(function(req, res, next) {
+  var token = req.headers["x-access-token"];
+  if (token) {
+    // verifies secret and checks exp
+    jwt.decode(token, secret, function(err, decoded) {
+      if (err) {
+        return res.json({
+          success: false,
+          message: "Failed to authenticate token."
+        });
+      } else {
+        // if everything is good, save to request for use in other routes
+        req.decoded = decoded;
+        next();
+      }
+    });
+  } else {
+    // if there is no token
+    // return an error
+    return res.status(403).send({
+      success: false,
+      message: "No token provided."
+    });
+  }
+  next();
+});
 
-//   var token =
-//     req.body.token || req.query.token || req.headers["x-access-token"];
+userRouter.route("/getuser/:username").get(async function(req, res,next) {
+  console.log("stuff, its the query", req.query);
+  console.log('----------------------------------');
 
-//   // decode token
-//   if (token) {
-//     // verifies secret and checks exp
-//     jwt.decode(token, secret, function(err, decoded) {
-//       if (err) {
-//         return res.json({
-//           success: false,
-//           message: "Failed to authenticate token."
-//         });
-//       } else {
-//         // if everything is good, save to request for use in other routes
-//         req.decoded = decoded;
-//         next();
-//       }
-//     });
-//   } else {
-//     // if there is no token
-//     // return an error
-//     return res.status(403).send({
-//       success: false,
-//       message: "No token provided."
-//     });
-//   }
-// });
+  console.log("stuff headers",  req.headers);
+  console.log('----------------------------------');
 
-userRouter.route("/getuser/:username").get(async function(req, res) {
-  console.log("stuff", req.body, req.header, req.headers);
-  var token = req.headers.authorization;
+  // console.log("stuff header1",  req.header);
+  console.log('----------------------------------');
+
+  // console.log("stuff", req.headers);
+
+  // var token = req.headers.authorization;
 
   // var user = jwt.decode(token, secret);
 
-  // console.log("req values  ", req.params.id, res.body);
+  console.log("req values  ", req.params.username, req.headers['x-access-token']);
 
+  // var token = req.headers['x-access-token']
   // if (!token) {
   //   res
   //     .status(400)
-  //     .send("yu need a token")
+  //     .send("you need a token")
   //     .end();
   // }
   // if (token) {
@@ -146,6 +152,7 @@ userRouter.route("/getuser/:username").get(async function(req, res) {
   //     res.json(user);
   //   }
   // );
+  next();
 });
 // // Defined edit route
 // userRouter.route("/edit/:userinfo").get(async function(req, res) {
