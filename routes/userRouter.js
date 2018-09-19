@@ -2,7 +2,9 @@ var express = require("express");
 var app = express();
 var bcrypt = require("bcrypt");
 var jwt = require("jwt-simple");
-var secret = "xxxJORE";
+var secret = "xxx";
+var checkToken = require("../routes/checkToken.js");
+var mongoose = require("mongoose");
 
 var userRouter = express.Router();
 require("express-async-await")(app);
@@ -34,6 +36,7 @@ userRouter.route("/signup").post(async function(req, res, next) {
     // Store hash in your password DB.
 
     var newUser = new user({
+      _id: new mongoose.Types.ObjectId(),
       username: username,
       email: email,
       password: hash,
@@ -44,7 +47,6 @@ userRouter.route("/signup").post(async function(req, res, next) {
 
     await res.status(200).send(newUser);
     await console.log("logged the new user");
-    next();
   });
 });
 
@@ -95,7 +97,7 @@ userRouter.use(function(req, res, next) {
       if (err) {
         return res.json({
           success: false,
-          message: "Failed to authenticate token."
+          message: "Failed to authenticate token.",
         });
       } else {
         // if everything is good, save to request for use in other routes
@@ -108,123 +110,37 @@ userRouter.use(function(req, res, next) {
     // return an error
     return res.status(403).send({
       success: false,
-      message: "No token provided."
+      message: "No token provided.",
     });
   }
   next();
 });
 
-userRouter.route("/getuser/:username").get(async function(req, res,next) {
-  console.log("stuff, its the query", req.query);
-  console.log('----------------------------------');
-
-  console.log("stuff headers",  req.headers);
-  console.log('----------------------------------');
-
-  // console.log("stuff header1",  req.header);
-  console.log('----------------------------------');
-
-  // console.log("stuff", req.headers);
-
-  // var token = req.headers.authorization;
-
-  // var user = jwt.decode(token, secret);
-
-  console.log("req values  ", req.params.username, req.headers['x-access-token']);
-
-  // var token = req.headers['x-access-token']
-  // if (!token) {
-  //   res
-  //     .status(400)
-  //     .send("you need a token")
-  //     .end();
-  // }
-  // if (token) {
-  //   return res.status(300).send(token);
-  // }
-
-  // var username = req.params.username;
-  // await user.findOne(
-  //   {
-  //     username
-  //   },
-  //   function(err, user) {
-  //     res.json(user);
-  //   }
-  // );
-  next();
+userRouter.route("/update/:id", checkToken).post(async function(req, res, next) {
+  await user
+    .findOneAndUpdate(
+      {
+        username: req.body.username,
+      },
+      { $set: { email: "green@testemail.com" } },
+      { new: true }
+    )
+    .then(async function(user, err) {
+      console.log(err, "user its just---", user);
+      if (!user) {
+        res.status(400).send("The user doesnt exist");
+        return next();
+      } else {
+        user
+          .save()
+          .then(user => {
+            return res.json("Update complete");
+          })
+          .catch(err => {
+            return res.status(400).send("unable to update the database");
+          });
+      }
+    });
 });
-// // Defined edit route
-// userRouter.route("/edit/:userinfo").get(async function(req, res) {
-//   console.log("req values  ", req.params.userinfo, res.body);
-//   var username = req.params.userinfo.username;
-
-//   await user.findOneAndUpdate(
-//     {
-//       username: username
-//     },
-//     {
-//       $set: {
-//         username: userinfo.username,
-//         email: userinfo.email,
-//         password: userinfo.password
-//       }
-//     },
-//     {
-//       new: true
-//     },
-//     function(err, doc) {
-//       res.status(201).send(doc);
-//     }
-//   );
-
-//   // await user.findOne({username}, async function(err, user) {
-//   //   await
-//   //   res.json(user);
-//   // });
-// });
-
-// //  Defined update route
-// userRouter.route("/update/:username").post(function(req, res) {
-//   user.findById(req.params.id, function(err, user) {
-//     if (!user) return next(new Error("Could not load Document"));
-//     else {
-//       // do your updates here
-//       user.user = req.body.user;
-
-//       user
-//         .save()
-//         .then(user => {
-//           res.json("Update complete");
-//         })
-//         .catch(err => {
-//           res.status(400).send("unable to update the database");
-//         });
-//     }
-//   });
-// });
-
-// // Defined delete | remove | destroy route
-// userRouter.route("/delete/:username").delete(async function(req, res) {
-//   var username = req.params.username;
-
-//   await user.findOne(
-//     {
-//       username: username
-//     },
-//     async function(error, user) {
-//       if (!user) {
-//         res.status(400).send("could not find user");
-//         return;
-//       }
-//       console.log(error, "This object will get deleted " + user);
-//       await user.remove();
-//       res.status(200).send("person deleted");
-//     }
-//   );
-//   //  user.findOne({ username:username}).remove().exec().then(function(data){
-//   //    console.log("errrrrr   ", data);
-//   //  })
-// });
 
 module.exports = userRouter;

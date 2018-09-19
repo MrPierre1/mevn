@@ -17,33 +17,16 @@
                 icon="face"
                 required></v-text-field>
             </v-flex>
-            <v-flex>
-              <v-text-field
-                v-model="email"
-                name="email"
-                label="Email"
-                id="email"
-                type="email"
-                required></v-text-field>
-            </v-flex>
+          
             <v-flex>
               <v-text-field
                 v-model="password"
                 name="password"
                 label="Password"
                 id="password"
-                type="password"
+                type="text"
                 required></v-text-field>
             </v-flex>
-            <!-- <v-flex>
-              <v-text-field
-                name="confirmPassword"
-                label="Confirm Password"
-                id="confirmPassword"
-                type="password"
-                required
-                ></v-text-field>
-            </v-flex> -->
             <v-flex class="text-xs-center" mt-5>
               <v-btn color="primary" @click="onSave">Sign Up</v-btn>
             </v-flex>
@@ -62,7 +45,7 @@ import axios from 'axios'
 import { ifError } from 'assert';
 import { userInfo } from 'os';
 export default {
-  name: 'Signup',
+  name: 'CreateItem',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',

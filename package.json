@@ -19,7 +19,9 @@
     "express-joi-validation": "^0.2.1",
     "joi": "^13.6.0",
     "jwt-simple": "^0.5.1",
-    "mongoose": "^5.2.8"
+    "mongoose": "^5.2.8",
+    "mongoose-auto-increment": "^5.0.1",
+    "morgan": "^1.9.0"
   },
   "devDependencies": {
     "vue-cli-plugin-vuetify": "^0.1.6"
