@@ -89,58 +89,58 @@ userRouter.route("/login").post(async function(req, res, next) {
   next();
 });
 
-userRouter.use(function(req, res, next) {
-  var token = req.headers["x-access-token"];
-  if (token) {
-    // verifies secret and checks exp
-    jwt.decode(token, secret, function(err, decoded) {
-      if (err) {
-        return res.json({
-          success: false,
-          message: "Failed to authenticate token.",
-        });
-      } else {
-        // if everything is good, save to request for use in other routes
-        req.decoded = decoded;
-        next();
-      }
-    });
-  } else {
-    // if there is no token
-    // return an error
-    return res.status(403).send({
-      success: false,
-      message: "No token provided.",
-    });
-  }
-  next();
-});
+// userRouter.use(function(req, res, next) {
+//   var token = req.headers["x-access-token"];
+//   if (token) {
+//     // verifies secret and checks exp
+//     jwt.decode(token, secret, function(err, decoded) {
+//       if (err) {
+//         return res.json({
+//           success: false,
+//           message: "Failed to authenticate token.",
+//         });
+//       } else {
+//         // if everything is good, save to request for use in other routes
+//         req.decoded = decoded;
+//         next();
+//       }
+//     });
+//   } else {
+//     // if there is no token
+//     // return an error
+//     return res.status(403).send({
+//       success: false,
+//       message: "No token provided.",
+//     });
+//   }
+//   next();
+// });
 
-userRouter.route("/update/:id", checkToken).post(async function(req, res, next) {
-  await user
-    .findOneAndUpdate(
-      {
-        username: req.body.username,
-      },
-      { $set: { email: "green@testemail.com" } },
-      { new: true }
-    )
-    .then(async function(user, err) {
-      console.log(err, "user its just---", user);
-      if (!user) {
-        res.status(400).send("The user doesnt exist");
-        return next();
-      } else {
-        user
-          .save()
-          .then(user => {
-            return res.json("Update complete");
-          })
-          .catch(err => {
-            return res.status(400).send("unable to update the database");
-          });
-      }
-    });
-});
+// userRouter.route("/update/:id", checkToken).post(async function(req, res, next) {
+//   await user
+//     .findOneAndUpdate(
+//       {
+//         username: req.body.username,
+//       },
+//       { $set: { email: "green@testemail.com" } },
+//       { new: true }
+//     )
+//     .then(async function(user, err) {
+//       console.log(err, "user its just---", user);
+//       if (!user) {
+//         res.status(400).send("The user doesnt exist");
+//         return next();
+//       } else {
+//         user
+//           .save()
+//           .then(user => {
+//             return res.json("Update complete");
+//           })
+//           .catch(err => {
+//             return res.status(400).send("unable to update the database");
+//           });
+//       }
+//     });
+// });
 
 module.exports = userRouter;

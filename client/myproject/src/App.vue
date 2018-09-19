@@ -49,12 +49,12 @@ export default {
   data () {
     return {
       appTitle: 'Awesome App',
-       sidebar: false,
+      //  sidebar: false,
       menuItems: [
           { title: 'Home', path: '/', icon: 'home' },
-          { title: 'Sign Up', path: '/signup', icon: 'face' },
-          { title: 'Login', path: '/login', icon: 'lock_open' },
-          // { title: 'Home', path: '/home', icon: 'home' }
+          // { title: 'Sign Up', path: '/signup', icon: 'face' },
+          // { title: 'Login', path: '/login', icon: 'lock_open' },
+          { title: 'table', path: '/table', icon: 'table' }
 
         ]
     }

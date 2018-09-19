@@ -48,15 +48,15 @@ app.use((req,res,next) => {
   error.status = 404
   next(error)
 })
-app.use((error, req, res, next) =>{
-  res.status(error.status || 500)
-  res.json({
-    error: {
-      message: error.message
-    }
-  })
-})
-app.use
+// app.use((error, req, res, next) =>{
+//   res.status(error.status || 500)
+//   res.json({
+//     error: {
+//       message: error.message
+//     }
+//   })
+// })
+// app.use
 // Start the server
 app.listen(port, function(){
 

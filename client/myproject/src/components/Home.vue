@@ -1,18 +1,27 @@
 <template>
- <v-container fluid>
+<div>
+  <create-item></create-item>
+
+</div>
+ <!-- <v-container fluid>
         <blockquote class="blockquote text-xs-center">
           Welcome home <br>
-        </blockquote>
-    <h1>{{msg}}</h1>
-    <v-btn color='primary' dark @click="getUsers">GetUsers</v-btn>
-    <ul v-for="item in getUsersList"><li>{{item.username}}</li><li>{{item.email}}</li><li>{{item.createdAt}}</li></ul>
-  </v-container>
+        </blockquote> -->
+    <!-- <h1>{{msg}}</h1> -->
+
+    <!-- <v-btn color='primary' dark @click="getUsers">GetUsers</v-btn>
+    <ul v-for="item in getUsersList"><li>{{item.username}}</li><li>{{item.email}}</li><li>{{item.createdAt}}</li></ul> -->
+  <!-- </v-container> -->
 </template>
 
 <script>
 import axios from "axios";
+import Table from './Table'
 export default {
   name: "Home",
+  components: {
+    Table: Table
+  },
   data() {
     return {
       msg: "Welcome to Your Vue.js App home",
@@ -56,16 +65,16 @@ export default {
  }
   },
 
-  beforeRouteEnter(to, from, next) {
-    var token = localStorage.getItem("token");
-    if (localStorage.getItem("token") == null) {
-      next({
-        path: "/login"
-      });
-    } else {
-      next();
-    }
-  }
+  // beforeRouteEnter(to, from, next) {
+  //   var token = localStorage.getItem("token");
+  //   if (localStorage.getItem("token") == null) {
+  //     next({
+  //       path: "/login"
+  //     });
+  //   } else {
+  //     next();
+  //   }
+  // }
 };
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

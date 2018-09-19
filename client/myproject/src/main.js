@@ -16,6 +16,9 @@ import {
   VCard,
   VTextField,
   VForm,
+  VDataTable,
+  VDivider,
+  VDialog,
   transitions
 } from 'vuetify'
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -33,6 +36,9 @@ Vue.use(Vuetify, {
     VCard,
     VTextField,
     VForm,
+    VDataTable, 
+    VDivider,
+    VDialog,
     transitions
   }
 })

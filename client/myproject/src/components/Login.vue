@@ -3,6 +3,7 @@
     <v-layout row wrap>
       <v-flex xs12 class="text-xs-center" mt-5>
         <h1>Login</h1>
+        <h3>You must login before you can proceed</h3>
       </v-flex>
       <v-flex xs12 sm6 offset-sm3 mt-3>
         <form>

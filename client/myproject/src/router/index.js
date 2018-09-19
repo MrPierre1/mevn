@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
 import Signup from '@/components/Signup'
 import Home from '@/components/Home'
+import Table from '@/components/Table'
 
 Vue.use(Router)
 
@@ -23,6 +24,11 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/table',
+      name: 'Table',
+      component: Table
     },
     {
       path: '/Home',
