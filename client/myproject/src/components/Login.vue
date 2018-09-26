@@ -72,10 +72,12 @@ export default {
         .then(value => {
           console.log("this is value of current user", value, value.data);
           localStorage.setItem("token", JSON.stringify(value.data));
-          this.$router.push("/Home");
+          alert('user is logged in')
+          this.$router.push("/secretpage");
         })
         .catch(err => {
-          console.log("Its errors: ", err);
+           alert("Invalid Credentials Please try again");
+          console.log("There are errors: ", err);
         });
     }
   }
@@ -83,38 +85,5 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1,
-h2 {
-  font-weight: normal;
-}
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-#app {
-  background-image: url("https://images.unsplash.com/photo-1497733942558-e74c87ef89db?dpr=1&auto=compress,format&fit=crop&w=1650&h=&q=80&cs=tinysrgb&crop=");
-  background-size: cover;
-  overflow: hidden;
-}
-.loginOverlay {
-  background: rgba(33, 150, 243, 0.3);
-}
-.photoCredit {
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
-}
-
-.form2 {
-  width: 640px;
-  margin: 0 20px;
-}
 </style>

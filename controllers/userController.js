@@ -30,8 +30,8 @@ exports.signup_user = async (req, res, next) => {
       image: image,
     });
 
-    await newUser.save();
-    await res.status(200).send("User created");
+     newUser.save();
+    await res.status(201).send({id: newUser.id, username: newUser.username});
   });
 };
 
@@ -53,6 +53,7 @@ exports.login_user = async (req, res, next) => {
         if (result) {
           var token = jwt.encode(user, secret);
           return res.json({
+            message: "User is logged in", 
             token,
           });
         } else {

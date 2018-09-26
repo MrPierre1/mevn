@@ -13,10 +13,12 @@
     "bcrypt": "^3.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "chai-http": "^4.2.0",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "express-async-await": "^1.1.0",
     "express-joi-validation": "^0.2.1",
+    "frisby": "^2.1.0",
     "joi": "^13.6.0",
     "jwt-simple": "^0.5.1",
     "mongoose": "^5.2.8",
@@ -24,6 +26,8 @@
     "morgan": "^1.9.0"
   },
   "devDependencies": {
+    "chakram": "^1.5.0",
+    "supertest": "^3.3.0",
     "vue-cli-plugin-vuetify": "^0.1.6"
   }
 }

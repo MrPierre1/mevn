@@ -1,10 +1,16 @@
 var jwt = require("jwt-simple");
 var secret = "xxx";
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
+    if(!req.headers.authorization){
+        return res.status(401).json({
+            message: 'Authorization header is needed for this request'
+        });
+    }
     try {
-        const token = req.headers['x-access-token'];
-        const decodedToken = jwt.verify(token, process.env.JWT_KEY);
-        req.userInfo = decodedToken;
+
+    console.log("inside catch", req.headers.authorization);
+
+       await jwt.decode(req.headers.authorization, secret)
         next();
     } catch (error) {
         return res.status(401).json({

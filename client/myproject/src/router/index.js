@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+// import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
 import Signup from '@/components/Signup'
 import Home from '@/components/Home'
-import Table from '@/components/Table'
+import SecretPage from '@/components/SecretPage'
 
 Vue.use(Router)
 
@@ -12,8 +12,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'Home',
+      component: Home
+    },
+    {
+      path: '/home',
+      name: 'Home',
+      component: Home
     },
     {
       path: '/signup',
@@ -26,17 +31,9 @@ export default new Router({
       component: Login
     },
     {
-      path: '/table',
-      name: 'Table',
-      component: Table
-    },
-    {
-      path: '/Home',
-      name: 'Home',
-      component: Home,
-      meta: {
-        requiresAuth: true
-      }
+      path: '/secretpage',
+      name: 'SecretPage',
+      component: SecretPage
     }
   ]
 })
