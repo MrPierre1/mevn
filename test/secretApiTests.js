@@ -11,8 +11,8 @@ describe('Secret', () => {
     chai.request(server)
       .post('/users/login')
       .send({
-        'username': 'test123456',
-        'password': '12345'
+        'username': 'morpheus',
+        'password': 'passwordToday'
       })
       .end((err, res) => {
         expect(res.statusCode).to.equal(200)
@@ -23,14 +23,12 @@ describe('Secret', () => {
       })
   })
 
-
-  it('Can GET all the users', (done) => {
-    console.log('toekn is T', t)
+  it('Can create a new secret', (done) => {
     chai.request(server)
       .post('/secret/new')
       .set('Authorization', t)
       .send({
-        'title': 'test23',
+        'title': Math.random(2000) + 'test23',
         'author': 'leader@as.com',
         'body': 'passwordToday',
         'comments': 'comments'
@@ -41,59 +39,26 @@ describe('Secret', () => {
         done()
       })
   })
-//   it('Can GET a single user', (done) => {
-//     chai.request(server)
-//         .get('/users/2')
-//         .end((err, res) => {
-//           expect(res.body.data.id).to.equal(2)
-//           done()
-//         })
-//   })
-//   it('Can POST a single user', (done) => {
-//     chai.request(server)
-//         .post('/users')
-//         .send({
-//             "name": "morpheus",
-//             "job": "leader"
-//           })
-//         .end((err, res) => {
-//           expect(res.statusCode).to.equal(201)
-//           expect(res.body.job).to.equal('leader')
-//           done()
-//         })
-//   })
-//   it('Can PUT a single user', (done) => {
-//     chai.request(server)
-//         .put('/users/2')
-//         .send({
-//             "name": "morpheus",
-//             "job": "zion resident"
-//           })
-//         .end((err, res) => {
-//           expect(res.statusCode).to.equal(200)
-//           expect(res.body.job).to.equal('zion resident')
-//           done()
-//         })
-//   })
-//   it('Can PATH a single user', (done) => {
-//     chai.request(server)
-//         .patch('/users/2')
-//         .send({
-//             "name": "morpheus",
-//             "job": "Neo's Father"
-//           })
-//         .end((err, res) => {
-//           expect(res.statusCode).to.equal(200)
-//           expect(res.body.job).to.equal("Neo's Father")
-//           done()
-//         })
-//   })
-//   it('Can DELETE a single user', (done) => {
-//     chai.request(server)
-//         .delete('/users/2')
-//         .end((err, res) => {
-//           expect(res.statusCode).to.equal(204)
-//           done()
-//         })
-//   })
+  it('Can GET a single secret', (done) => {
+    chai.request(server)
+      .get('/secret/5bad2842ccfb84ce2a30ca6b')
+      .set('Authorization', t)
+      .end((err, res) => {
+        expect(res.body).to.be.an('object')
+        expect(res.body.title).to.equal('MyTitle')
+        done()
+      })
+  })
+  it('Can PUT a single user', (done) => {
+    chai.request(server)
+      .put('/secret/edit/5bad2842ccfb84ce2a30ca6b')
+      .set('Authorization', t)
+      .send({
+        'body': Math.random(200) + ' This is the bodymorpheus'
+      })
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(201)
+        done()
+      })
+  })
 })

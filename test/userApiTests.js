@@ -23,7 +23,7 @@ chai.use(chaiHttp);
             .post('/users/signup')
             .send({
                 "username": "morpheus",
-                "email": "leader@as.com",
+                "email": Math.random(1,10000)+"leader@as.com",
                 "password": "passwordToday"
               })
             .end((err, res) => {
@@ -36,8 +36,8 @@ chai.use(chaiHttp);
         chai.request(server)
             .post('/users/login')
             .send({
-                "username": "testuser",
-                "password": "12345"
+                "username": "morpheus",
+                "password": "passwordToday"
               })
             .end((err, res) => {
               expect(res.statusCode).to.equal(200)
